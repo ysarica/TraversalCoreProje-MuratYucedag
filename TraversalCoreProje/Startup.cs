@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TraversalCoreProje.Models;
 
 namespace TraversalCoreProje
 {
@@ -27,10 +28,14 @@ namespace TraversalCoreProje
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //ekliyoruz
             services.AddDbContext<Context>();
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>().AddErrorDescriber<CustomIdentityValidator>().AddEntityFrameworkStores<Context>();
+
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();
             services.AddControllersWithViews();
 
+            //ekliyoruz
             services.AddMvc(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -56,8 +61,12 @@ namespace TraversalCoreProje
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //Ekliyoruz
             app.UseAuthentication();
+
             app.UseRouting();
+
 
             app.UseAuthorization();
 
